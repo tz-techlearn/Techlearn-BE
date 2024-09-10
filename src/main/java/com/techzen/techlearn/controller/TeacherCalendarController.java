@@ -19,17 +19,6 @@ public class TeacherCalendarController {
 
     TeacherCalendarService teacherCalendarService;
 
-//    @GetMapping
-//    public ResponseData<?> getAllTeacherCalendar(@RequestParam(required = false, defaultValue = "1") int page,
-//                                      @RequestParam(required = false, defaultValue = "10") int pageSize) {
-//        return ResponseData.builder()
-//                .status(HttpStatus.OK.value())
-//                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-//                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-//                .result(teacherCalendarService.getAllTeacherCalendar(page, pageSize))
-//                .build();
-//    }
-
     @PostMapping
     public ResponseData<?> addTeacherCalendar(@RequestBody @Valid TeacherCalendarRequestDTO request) {
         return ResponseData.builder()
@@ -40,13 +29,15 @@ public class TeacherCalendarController {
                 .build();
     }
 
+
     @GetMapping
-    public ResponseData<?> getAllTeacherCalendar() {
+    public ResponseData<?> getAppointmentsByTechnicalAndTeacher(@RequestParam String nameTechnical,
+                                                                @RequestParam String nameTeacher) {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.GET_SUCCESSFUL.getCode())
                 .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-                .result(teacherCalendarService.getAllTeacherCalendar())
+                .result(teacherCalendarService.findAppointments(nameTechnical, nameTeacher))
                 .build();
     }
 
