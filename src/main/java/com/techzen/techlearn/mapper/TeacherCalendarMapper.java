@@ -6,7 +6,6 @@ import com.techzen.techlearn.entity.TeacherCalendarEntity;
 import com.techzen.techlearn.entity.TeacherEntity;
 import org.mapstruct.*;
 
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
@@ -21,6 +20,7 @@ public interface TeacherCalendarMapper {
             @Mapping(target = "idTeacher", source = "teacher.id"),
     })
     TeacherCalendarResponseDTO toTeacherCalendarResponseDTO(TeacherCalendarEntity entity);
+
     @Named("mapToTeacherEntity")
     default TeacherEntity mapToTeacherEntity(String idTeacher, @Context TeacherCalendarMappingContext context) {
         return context.getTeacherRepository().findById(UUID.fromString(idTeacher))

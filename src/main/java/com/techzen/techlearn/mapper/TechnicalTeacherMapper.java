@@ -12,8 +12,8 @@ public interface TechnicalTeacherMapper {
     TechnicalTeacherMapper INSTANCE = Mappers.getMapper(TechnicalTeacherMapper.class);
 
     @Mapping(source = "teacher.name", target = "name")
-    @Mapping(source = "calendar.timeStart", target = "timeStart")
-    @Mapping(source = "calendar.timeEnd", target = "timeEnd")
+    @Mapping(source = "teacherCalendar.timeStart", target = "timeStart")
+    @Mapping(source = "teacherCalendar.timeEnd", target = "timeEnd")
     @Mapping(source = "teacherCalendar.dateAppointment", target = "dateAppointment")
     TechnicalTeacherResponseDTO toTechnicalTeacherResponseDTO(TeacherCalendarEntity teacherCalendar);
 }
