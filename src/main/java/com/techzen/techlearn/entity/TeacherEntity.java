@@ -24,6 +24,9 @@ public class TeacherEntity {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "color")
+    private String color;
+
     public TeacherEntity(UUID id) {
         this.id = id;
     }

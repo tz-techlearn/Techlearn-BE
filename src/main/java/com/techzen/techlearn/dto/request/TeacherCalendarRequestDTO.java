@@ -17,10 +17,10 @@ import java.util.UUID;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TeacherCalendarRequestDTO {
-    String idTime;
     String idTeacher;
     String dateAppointment;
+    String timeStart;
+    String timeEnd;
     String status;
     String note;
-
 }

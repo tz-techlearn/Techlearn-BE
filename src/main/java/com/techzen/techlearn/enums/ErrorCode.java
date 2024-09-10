@@ -29,7 +29,11 @@ public enum ErrorCode {
     FULL_NAME_INVALID(1014, "Full name must be not blank", HttpStatus.BAD_REQUEST),
     TEACHER_NOT_EXISTED(1015, "Teacher not existed", HttpStatus.NOT_FOUND),
     CALENDAR_NOT_EXISTED(1016, "calendar not existed", HttpStatus.NOT_FOUND),
+    TIME_NOT_SUITABLE(1016, "time start must time end equals ten minutes", HttpStatus.NOT_FOUND),
     TEACHER_CALENDAR_DATE_APPOINTMENT_EXISTED(1017, "teacher or calendar or date appointment  existed", HttpStatus.BAD_REQUEST),
+    NAME_TEACHER_OR_TECHNICAL_AND_CURRENT_DATE_NOT_EXISTED(1018, "technical or teacher or current date not existed", HttpStatus.BAD_REQUEST),
+    DATE_APPOINTMENT_NOT_SUITABLE(1019, "This smaller set date is now", HttpStatus.BAD_REQUEST),
+    TIME_START_SUITABLE(1020, "This smaller set time is now", HttpStatus.BAD_REQUEST),
     ;
 
     Integer code;

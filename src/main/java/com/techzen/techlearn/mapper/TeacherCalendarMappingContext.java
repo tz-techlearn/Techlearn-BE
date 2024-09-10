@@ -1,6 +1,5 @@
 package com.techzen.techlearn.mapper;
 
-import com.techzen.techlearn.repository.CalendarRepository;
 import com.techzen.techlearn.repository.TeacherRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,5 +13,4 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TeacherCalendarMappingContext {
     TeacherRepository teacherRepository;
-    CalendarRepository calendarRepository;
 }

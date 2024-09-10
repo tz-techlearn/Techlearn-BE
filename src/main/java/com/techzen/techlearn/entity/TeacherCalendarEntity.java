@@ -3,7 +3,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -24,12 +26,14 @@ public class TeacherCalendarEntity {
     @JoinColumn(name = "id_teacher")
     private TeacherEntity teacher;
 
-    @ManyToOne
-    @JoinColumn(name = "id_time")
-    private CalendarEntity calendar;
-
     @Column(name = "date_appointment")
     private LocalDate dateAppointment;
+
+    @Column(name = "time_start")
+    private LocalTime timeStart;
+
+    @Column(name = "time_end")
+    private LocalTime timeEnd;
 
     @Column(name = "status")
     private String status;
