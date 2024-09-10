@@ -16,8 +16,9 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TeacherCalendarResponseDTO implements Serializable {
     String idTeacher;
-    String idTime;
     String dateAppointment;
+    String timeStart;
+    String timeEnd;
     String status;
     String note;
 }
