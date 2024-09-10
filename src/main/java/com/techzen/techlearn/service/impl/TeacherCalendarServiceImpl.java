@@ -64,8 +64,6 @@ public class TeacherCalendarServiceImpl implements TeacherCalendarService {
         TeacherCalendarEntity savedEntity = teacherCalendarRepository.save(entity);
         return teacherCalendarMapper.toTeacherCalendarResponseDTO(savedEntity);
     }
-
-
     @Override
     public List<TeacherCalendarFreeResponseDTO> getAllTeacherCalendar() {
         List<Object[]> resultList = teacherCalendarRepository.findAllTeacherFree();

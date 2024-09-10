@@ -20,11 +20,9 @@ public interface TeacherCalendarMapper {
             @Mapping(target = "idTeacher", source = "teacher.id"),
     })
     TeacherCalendarResponseDTO toTeacherCalendarResponseDTO(TeacherCalendarEntity entity);
-
     @Named("mapToTeacherEntity")
     default TeacherEntity mapToTeacherEntity(String idTeacher, @Context TeacherCalendarMappingContext context) {
         return context.getTeacherRepository().findById(UUID.fromString(idTeacher))
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
     }
-
 }
