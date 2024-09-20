@@ -52,8 +52,6 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
 
         calendar.setId(Integer.parseInt(request.getId()));
         calendar.setStatus(CalendarStatus.BOOKED);
-        calendar.setCourseId(Long.parseLong(request.getCourseId()));
-        calendar.setChapterId(Long.parseLong(request.getChapterId()));
         calendar.setUser(user);
 
         CalendarDTO calendarDTO = CalendarDTO.builder()

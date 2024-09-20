@@ -40,6 +40,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "points")
+    private Integer points;
+
     @ManyToMany(mappedBy = "userEntities")
     @JsonIgnore
     private List<CourseEntity> courseEntities;

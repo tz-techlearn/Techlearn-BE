@@ -120,4 +120,15 @@ public class UserController {
                 .result(userService.retrieveUser())
                 .build();
     }
+
+    @GetMapping("/points")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseData<?> getAllPointsById (@RequestParam UUID idUser) {
+        return ResponseData.builder()
+                .status(HttpStatus.OK.value())
+                .code(ErrorCode.GET_SUCCESSFUL.getCode())
+                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
+                .result(userService.getAllPointsById(idUser))
+                .build();
+    }
 }

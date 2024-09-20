@@ -35,6 +35,9 @@ public class CourseEntity extends BaseEntity{
     @Column(name = "time")
     private String time;
 
+    @Column(name = "points")
+    private Integer points;
+
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 

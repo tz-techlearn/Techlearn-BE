@@ -2,6 +2,7 @@ package com.techzen.techlearn.service;
 
 import com.techzen.techlearn.dto.request.UserRequestDTO;
 import com.techzen.techlearn.dto.response.PageResponse;
+import com.techzen.techlearn.dto.response.StudentCourseResponseDTO;
 import com.techzen.techlearn.dto.response.UserResponseDTO;
 import com.techzen.techlearn.enums.RoleType;
 import org.springframework.data.domain.Page;
@@ -26,4 +27,6 @@ public interface UserService {
     UserResponseDTO addRole(UUID uniqueId, List<RoleType> roleTypes);
 
     UserResponseDTO retrieveUser();
+
+    StudentCourseResponseDTO getAllPointsById (UUID idUser);
 }

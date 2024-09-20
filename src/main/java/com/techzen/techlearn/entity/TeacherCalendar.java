@@ -52,12 +52,6 @@ public class TeacherCalendar extends BaseEntity{
     @Column(name = "status", nullable = false)
     private CalendarStatus status;
 
-    @Column(name = "course_id")
-    private long courseId;
-
-    @Column(name = "chapter_id")
-    private long chapterId;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;

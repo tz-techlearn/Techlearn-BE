@@ -30,6 +30,4 @@ public class Teacher extends BaseEntity {
     @OneToMany(mappedBy = "teacher")
     private List<TeacherCalendar> teacherCalendars;
 
-    @OneToMany(mappedBy = "teacher")
-    private List<TechnicalTeacher> technicalTeachers;
 }

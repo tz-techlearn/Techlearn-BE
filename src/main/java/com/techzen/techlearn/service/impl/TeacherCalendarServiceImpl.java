@@ -125,19 +125,19 @@ public class TeacherCalendarServiceImpl implements TeacherCalendar2Service {
 //                .collect(Collectors.toList());
 //    }
 
-    @Override
-    public List<TeacherCalendarResponseDTO2> findCalendarByTeacherId(
-            String teacherName,
-            String technicalTeacherName,
-            String chapterName
-    ) {
-        List<TeacherCalendar> calendars = teacherCalendarRepository.findByFilters(
-                teacherName, technicalTeacherName, chapterName
-        );
-        System.out.println(calendars);
-        return calendars.stream()
-                .map(teacherCalendarMapper::toDTO)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<TeacherCalendarResponseDTO2> findCalendarByTeacherId(
+//            String teacherName,
+//            String technicalTeacherName,
+//            String chapterName
+//    ) {
+//        List<TeacherCalendar> calendars = teacherCalendarRepository.findByFilters(
+//                teacherName, technicalTeacherName, chapterName
+//        );
+//        System.out.println(calendars);
+//        return calendars.stream()
+//                .map(teacherCalendarMapper::toDTO)
+//                .collect(Collectors.toList());
+//    }
 
 }

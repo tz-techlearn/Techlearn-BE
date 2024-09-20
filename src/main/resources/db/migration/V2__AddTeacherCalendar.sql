@@ -29,26 +29,11 @@ CREATE TABLE teacher_calendar
     CONSTRAINT FOREIGN KEY (teacher_id) REFERENCES teacher(id)
 );
 
-CREATE TABLE technical_teacher
+CREATE TABLE teacher_course
 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    id_teacher BINARY(16) NOT NULL,
-    created_by VARCHAR(255),
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_by VARCHAR(255),
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT FOREIGN KEY (id_teacher) REFERENCES teacher(id)
-);
-
-CREATE TABLE teacher_chapter
-(
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    technical_teacher_id INT,
-    created_by VARCHAR(255),
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_by VARCHAR(255),
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT FOREIGN KEY (technical_teacher_id) REFERENCES technical_teacher(id)
+    teacher_id BINARY(16) NOT NULL,
+    course_id  BIGINT NOT NULL,
+    PRIMARY KEY (teacher_id, course_id),
+    CONSTRAINT fk_teacher FOREIGN KEY (teacher_id) REFERENCES teacher(id),
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES tbl_course(id)
 );

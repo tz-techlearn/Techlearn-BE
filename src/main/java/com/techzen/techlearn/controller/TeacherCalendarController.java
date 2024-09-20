@@ -85,20 +85,20 @@ public class TeacherCalendarController {
 //        return teacherCalendarService.findCalendarByTeacherId(id);
 //    }
 
-    @GetMapping("/find-calendars")
-    public ResponseData<List<TeacherCalendarResponseDTO2>> findCalendars(
-            @RequestParam(required = false) String teacherName,
-            @RequestParam(required = false) String technicalTeacherName,
-            @RequestParam(required = false) String chapterName
-    ) {
-        List<TeacherCalendarResponseDTO2> calendars = teacherCalendarService.findCalendarByTeacherId(teacherName, technicalTeacherName, chapterName);
-
-        return ResponseData.<List<TeacherCalendarResponseDTO2>>builder()
-                .status(HttpStatus.OK.value())
-                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-                .result(calendars)
-                .build();
-    }
+//    @GetMapping("/find-calendars")
+//    public ResponseData<List<TeacherCalendarResponseDTO2>> findCalendars(
+//            @RequestParam(required = false) String teacherName,
+//            @RequestParam(required = false) String technicalTeacherName,
+//            @RequestParam(required = false) String chapterName
+//    ) {
+//        List<TeacherCalendarResponseDTO2> calendars = teacherCalendarService.findCalendarByTeacherId(teacherName, technicalTeacherName, chapterName);
+//
+//        return ResponseData.<List<TeacherCalendarResponseDTO2>>builder()
+//                .status(HttpStatus.OK.value())
+//                .code(ErrorCode.GET_SUCCESSFUL.getCode())
+//                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
+//                .result(calendars)
+//                .build();
+//    }
 
 }

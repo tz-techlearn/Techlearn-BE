@@ -2,6 +2,7 @@ package com.techzen.techlearn.service.impl;
 
 import com.techzen.techlearn.dto.request.UserRequestDTO;
 import com.techzen.techlearn.dto.response.PageResponse;
+import com.techzen.techlearn.dto.response.StudentCourseResponseDTO;
 import com.techzen.techlearn.dto.response.UserResponseDTO;
 import com.techzen.techlearn.entity.Role;
 import com.techzen.techlearn.entity.UserEntity;
@@ -103,5 +104,17 @@ public class UserServiceImpl implements UserService {
                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
        return userMapper.toUserResponseDTO(user);
+    }
+
+    @Override
+        public StudentCourseResponseDTO getAllPointsById(UUID idUser) {
+            Integer totalPoints = userRepository.getAllPointsById(idUser);
+            UserEntity entity = new UserEntity();
+            entity.setPoints(totalPoints);
+            StudentCourseResponseDTO dto = userMapper.toStudentCourseResponseDTO(entity);
+
+            return StudentCourseResponseDTO.builder()
+                    .points(dto.getPoints())
+                    .build();
     }
 }
