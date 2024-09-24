@@ -4,6 +4,8 @@ import com.techzen.techlearn.dto.request.TeacherRequestDTO;
 import com.techzen.techlearn.dto.response.PageResponse;
 import com.techzen.techlearn.dto.response.TeacherResponseDTO;
 import com.techzen.techlearn.entity.Teacher;
+import com.techzen.techlearn.enums.ErrorCode;
+import com.techzen.techlearn.exception.AppException;
 import com.techzen.techlearn.mapper.TeacherMapper;
 import com.techzen.techlearn.repository.TeacherRepository;
 import com.techzen.techlearn.service.TeacherService;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +51,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<TeacherResponseDTO> filterTeacherByCourse(Long id) {
+        List<Teacher> teachers = teacherRepository.findTeacherByCourse(id);
+        if (teachers.isEmpty()) {
+            throw new AppException(ErrorCode.TEACHER_NOT_EXISTED);
+        } else return teachers.stream()
+                .map(teacherMapper::toTeacherResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public TeacherResponseDTO addTeacher(TeacherRequestDTO request) {
         Teacher teacher = teacherMapper.toTeacherEntity(request);
+
+        if (teacher.getId() == null) {
+            teacher.setId(UUID.randomUUID());
+        }
 
         return teacherMapper.toTeacherResponseDTO(teacherRepository.save(teacher));
     }

@@ -60,12 +60,6 @@ public class TeacherCalendarResponseDTO2 implements Serializable {
     @JsonProperty("Status")
     private CalendarStatus status;
 
-    @JsonProperty("CourseId")
-    private String courseId;
-
-    @JsonProperty("ChapterId")
-    private String chapterId;
-
     @JsonProperty("UserId")
     private String userId;
 }

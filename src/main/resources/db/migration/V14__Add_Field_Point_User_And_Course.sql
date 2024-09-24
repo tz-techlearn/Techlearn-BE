@@ -41,4 +41,3 @@ INSERT INTO tbl_user_course (id_course, id_user)
 VALUES
     (1, UNHEX('6a1b4ebafbc6412b82192a1f84eba568')),
     (2, UNHEX('6a1b4ebafbc6412b82192a1f84eba568'));
-

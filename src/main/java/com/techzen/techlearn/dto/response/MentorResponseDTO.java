@@ -1,4 +1,4 @@
-package com.techzen.techlearn.dto.request;
+package com.techzen.techlearn.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherRequestDTO {
+public class MentorResponseDTO {
     private String id;
     private String name;
+    private String email;
     private String avatar;
     private String color;
 }

@@ -3,9 +3,13 @@ package com.techzen.techlearn.service.impl;
 import com.techzen.techlearn.dto.response.CourseResponseDTO;
 import com.techzen.techlearn.dto.response.PageResponse;
 import com.techzen.techlearn.dto.response.SubmittionResponseDTO;
+import com.techzen.techlearn.dto.response.UserResponseDTO;
 import com.techzen.techlearn.entity.CourseEntity;
 import com.techzen.techlearn.entity.SubmitionEntity;
+import com.techzen.techlearn.enums.ErrorCode;
+import com.techzen.techlearn.exception.AppException;
 import com.techzen.techlearn.mapper.CourseMapper;
+import com.techzen.techlearn.mapper.UserMapper;
 import com.techzen.techlearn.repository.CourseRepository;
 import com.techzen.techlearn.service.CourseService;
 import lombok.AccessLevel;
@@ -30,6 +34,7 @@ public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
     CourseMapper courseMapper;
+    UserMapper userMapper;
 
     @Override
     public PageResponse<?> getCoursesByUserId(UUID userId, int page, int pageSize) {
@@ -43,6 +48,20 @@ public class CourseServiceImpl implements CourseService {
                 .totalPage(reviews.getTotalPages())
                 .items(list)
                 .build();
+    }
+
+    @Override
+    public CourseResponseDTO findCourseById(long id) {
+        return courseMapper.toCourseResponseDTO(courseRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.COURSE_NOT_FOUND)));
+    }
+
+    @Override
+    public List<UserResponseDTO> findUserByCourse(long id) {
+        return courseRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.COURSE_NOT_FOUND))
+                .getUserEntities()
+                .stream()
+                .map(userMapper::toUserResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

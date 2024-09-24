@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponseDTO getUserEntityByAccessToken(String accessToken) {
+        UserEntity user = userRepository.findUserEntityByAccessToken(accessToken).orElseThrow(()-> new AppException(ErrorCode.INVALID_TOKEN));
+        return userMapper.toUserResponseDTO(user);
+    }
+
+    @Override
     public UserResponseDTO addUser(UserRequestDTO request) {
         UserEntity user = userMapper.toUserEntity(request);
         user.setIsDeleted(false);

@@ -12,4 +12,6 @@ public interface TeacherService {
     PageResponse<?> findAll(int page, int pageSize);
 
     List<TeacherResponseDTO> findAll();
+
+    List<TeacherResponseDTO> filterTeacherByCourse(Long id);
 }

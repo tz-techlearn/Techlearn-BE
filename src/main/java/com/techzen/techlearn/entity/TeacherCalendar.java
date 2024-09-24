@@ -48,6 +48,10 @@ public class TeacherCalendar extends BaseEntity{
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
 
+    @ManyToOne
+    @JoinColumn(name = "mentor_id", referencedColumnName = "id")
+    private Mentor mentor;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private CalendarStatus status;

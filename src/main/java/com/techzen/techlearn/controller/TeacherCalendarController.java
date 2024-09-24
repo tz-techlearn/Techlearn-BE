@@ -16,89 +16,75 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("/api/v1/teacher-calendar")
+@RequestMapping("/api/v1/teacher")
 public class TeacherCalendarController {
 
     TeacherCalendar2Service teacherCalendarService;
 
-    @PostMapping
-    @PreAuthorize("hasAuthority('TEACHER')")
-    public ResponseData<?> addTeacherCalendar(@RequestBody @Valid TeacherCalendarRequestDTO2 request) {
+    @PostMapping("/{id}/calendar")
+    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('MENTOR')")
+    public ResponseData<?> addTeacherCalendar(@RequestBody @Valid TeacherCalendarRequestDTO2 request, @PathVariable(name = "id") UUID id) {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.ADD_SUCCESSFUL.getCode())
                 .message(ErrorCode.ADD_SUCCESSFUL.getMessage())
-                .result(teacherCalendarService.addTeacherCalendar(request))
+                .result(teacherCalendarService.createCalendar(request, id))
                 .build();
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('TEACHER')")
-    public ResponseData<?> updateTeacherCalendar(@PathVariable Integer id,
+    @PutMapping("/{id}/calendar/{calendarId}")
+    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('MENTOR')")
+    public ResponseData<?> updateTeacherCalendar(@PathVariable(name = "calendarId") Integer calendarId,
                                                  @RequestBody @Valid TeacherCalendarRequestDTO2 request) {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.UPDATE_SUCCESSFUL.getCode())
                 .message(ErrorCode.UPDATE_SUCCESSFUL.getMessage())
-                .result(teacherCalendarService.updateCalendarTeacher(id, request))
+                .result(teacherCalendarService.updateCalendarTeacher(calendarId, request))
                 .build();
     }
 
-    @GetMapping("/")
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @GetMapping("/{id}/calendar/")
+//    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('MENTOR')")
     public List<TeacherCalendarResponseDTO2> getSchedule(@RequestParam("StartDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                                                         @RequestParam("EndDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+                                                         @RequestParam("EndDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                                         @PathVariable UUID id) {
 
-        return teacherCalendarService.findByDateRange(startDate, endDate);
+        return teacherCalendarService.findByDateRange(startDate, endDate, id);
     }
-//
-//    @GetMapping("/students")
-//    public ResponseData<?> getAppointmentsByTechnicalAndTeacher(@RequestParam String nameTechnical,
-//                                                                @RequestParam String nameTeacher) {
-//        return ResponseData.builder()
-//                .status(HttpStatus.OK.value())
-//                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-//                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-//                .result(teacherCalendarService.findAppointments(nameTechnical, nameTeacher))
-//                .build();
-//    }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('TEACHER')")
-    public ResponseData<?> deleteTeacherCalendar(@PathVariable Integer id) {
-        teacherCalendarService.deleteTeacherCalendar(id);
+    @DeleteMapping("/{id}/calendar/{calendarId}")
+    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('MENTOR')")
+    public ResponseData<?> deleteTeacherCalendar(@PathVariable(name = "calendarId") Integer calendarId,
+                                                 @PathVariable(name = "id") UUID ownerId) {
+        teacherCalendarService.deleteTeacherCalendar(calendarId, ownerId);
 
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.GET_SUCCESSFUL.getCode())
                 .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-                .result("TeacherCalendar with ID " + id + " was successfully deleted.")
+                .result("TeacherCalendar with ID " + calendarId + " was successfully deleted.")
                 .build();
     }
 
-//    @GetMapping("/find-by-id/{id}")
-//    public List<TeacherCalendarResponseDTO2> findTeacherCalendarById(@PathVariable String id) {
-//        return teacherCalendarService.findCalendarByTeacherId(id);
-//    }
-
-//    @GetMapping("/find-calendars")
-//    public ResponseData<List<TeacherCalendarResponseDTO2>> findCalendars(
-//            @RequestParam(required = false) String teacherName,
-//            @RequestParam(required = false) String technicalTeacherName,
-//            @RequestParam(required = false) String chapterName
-//    ) {
-//        List<TeacherCalendarResponseDTO2> calendars = teacherCalendarService.findCalendarByTeacherId(teacherName, technicalTeacherName, chapterName);
-//
-//        return ResponseData.<List<TeacherCalendarResponseDTO2>>builder()
-//                .status(HttpStatus.OK.value())
-//                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-//                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-//                .result(calendars)
-//                .build();
-//    }
+    @GetMapping("/find-calendars")
+    public ResponseData<List<TeacherCalendarResponseDTO2>> findCalendars(
+            @RequestParam UUID uuid,
+            @RequestParam String technicalTeacherName,
+            @RequestParam String chapterName
+    ) {
+        List<TeacherCalendarResponseDTO2> calendars = teacherCalendarService.findCalendarByTeacherId(uuid, technicalTeacherName, chapterName);
+        return ResponseData.<List<TeacherCalendarResponseDTO2>>builder()
+                .status(HttpStatus.OK.value())
+                .code(ErrorCode.GET_SUCCESSFUL.getCode())
+                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
+                .result(calendars)
+                .build();
+    }
 
 }

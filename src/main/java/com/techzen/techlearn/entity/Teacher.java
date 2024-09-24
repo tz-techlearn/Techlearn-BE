@@ -15,7 +15,6 @@ import java.util.UUID;
 public class Teacher extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)

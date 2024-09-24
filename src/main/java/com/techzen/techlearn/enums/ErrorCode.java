@@ -33,6 +33,8 @@ public enum ErrorCode {
     INVALID_PASSWORD(1107, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
     INVALID_CREDENTIALS(1108, "Invalid credentials", HttpStatus.BAD_REQUEST),
     ROLE_NOT_FOUND(1109, "Role not found", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(1110, "Invalid access token", HttpStatus.BAD_REQUEST),
+
 
     // prompt code prompt : 120*
     PROMPT_STRUCTURE(1201, "Prompt structure must be not blank", HttpStatus.BAD_REQUEST),
@@ -51,7 +53,8 @@ public enum ErrorCode {
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
 
     // error code Teacher : 150*
-    TEACHER_NOT_EXISTED(1015, "Teacher not existed", HttpStatus.NOT_FOUND),
+    TEACHER_NOT_EXISTED(1505, "Teacher not existed", HttpStatus.NOT_FOUND),
+    MENTOR_NOT_EXISTED(1506, "Mentor not existed", HttpStatus.NOT_FOUND),
 
     // error code calendar : 160*
     TIME_NOT_SUITABLE(1016, "time start must time end equals ten minutes", HttpStatus.NOT_FOUND),
@@ -60,6 +63,7 @@ public enum ErrorCode {
     DATE_APPOINTMENT_NOT_SUITABLE(1019, "This smaller set date is now", HttpStatus.BAD_REQUEST),
     TIME_START_SUITABLE(1020, "This smaller set time is now", HttpStatus.BAD_REQUEST),
     CALENDAR_NOT_EXISTED(1021, "Calendar not existed", HttpStatus.NOT_FOUND),
+    POINTS_NOT_ENOUGH(1022, "Points not enough", HttpStatus.BAD_REQUEST),
     ;
 
     Integer code;
