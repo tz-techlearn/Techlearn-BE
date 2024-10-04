@@ -1,5 +1,6 @@
 package com.techzen.techlearn.entity;
 
+
 import com.techzen.techlearn.enums.StudentCourseStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +34,8 @@ public class StudentCourseEntity extends BaseEntity {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    StudentCourseStatus status;
+
+    StudentCourseStatus  status;
+
 
 }
