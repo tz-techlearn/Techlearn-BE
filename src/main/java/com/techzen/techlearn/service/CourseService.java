@@ -22,4 +22,5 @@ public interface CourseService {
 
     List<TeacherResponseDTO> findTeacherByCourse(long id);
 
+    Object getAllCourse(int page, int pageSize);
 }
