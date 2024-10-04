@@ -11,6 +11,9 @@ import java.util.UUID;
 
 @Repository
 public interface StudenCourseRepository extends JpaRepository<StudentCourseEntity, Long> {
+
     @Query("SELECT s.idCourse FROM StudentCourseEntity s WHERE s.userEntity.id = :userId")
     List<Long> findAllCourseIdsByUserId(@Param("userId") UUID userId);
+
+    List<StudentCourseEntity> findAllByUserEntityId(@Param("id") UUID id);
 }
