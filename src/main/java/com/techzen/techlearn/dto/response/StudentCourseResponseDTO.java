@@ -12,4 +12,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StudentCourseResponseDTO {
     String points;
+    Long idCourse;
+    String status;
 }
