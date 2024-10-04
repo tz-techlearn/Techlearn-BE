@@ -19,6 +19,9 @@ public interface StudenCourseRepository extends JpaRepository<StudentCourseEntit
     @Query("SELECT (COUNT(s) > 0) AS BIT FROM StudentCourseEntity s WHERE s.userEntity.id = :userId and s.idCourse= :idCourse  ")
     boolean existUserIdAndIdCourse(@Param("userId") UUID userId, @Param("idCourse") long idCourse);
 
+    @Query("SELECT s from StudentCourseEntity s WHERE s.userEntity.id = :userId and s.idCourse= :idCourse")
+    StudentCourseEntity findStudentCourseByIdCourseIdUser(@Param("userId") UUID userId, @Param("idCourse") long idCourse);
+
     List<StudentCourseEntity> findAllByUserEntityId(@Param("id") UUID id);
 
 }
