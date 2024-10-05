@@ -21,4 +21,6 @@ public interface StudenCourseRepository extends JpaRepository<StudentCourseEntit
 
     List<StudentCourseEntity> findAllByUserEntityId(@Param("id") UUID id);
 
+    Optional<StudentCourseEntity> findByIdCourseAndUserEntityId(Long id, UUID uuid);
+
 }

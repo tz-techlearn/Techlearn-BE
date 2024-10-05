@@ -35,13 +35,8 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseData<?> findCourseById(@PathVariable long id) {
-        return ResponseData.builder()
-                .status(HttpStatus.OK.value())
-                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-                .result(courseService.findCourseById(id))
-                .build();
+    public ResponseEntity<?> getCourseById(@PathVariable Long id) {
+        return JsonResponse.ok(courseService.getCourseById(id));
     }
 
     @GetMapping("/{id}/users")

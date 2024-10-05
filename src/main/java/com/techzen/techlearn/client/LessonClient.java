@@ -11,8 +11,7 @@ public interface LessonClient {
 
     @GetMapping
     ResponseEntity<?> getAllLesson(@RequestParam(required = false, defaultValue = "1") int page,
-                                   @RequestParam(required = false, defaultValue = "10") int pageSize,
-                                   @RequestParam Long idChapter);
+                                   @RequestParam(required = false, defaultValue = "10") int pageSize);
 
     @GetMapping("/{id}")
     ResponseEntity<?> getLessonById(@PathVariable Long id);
