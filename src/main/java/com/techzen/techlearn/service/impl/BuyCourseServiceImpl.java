@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class BuyCourseImpl implements BuyCourseService {
+public class BuyCourseServiceImpl implements BuyCourseService {
 
     StudenCourseRepository studenCourseRepository;
     UserRepository userRepository;
@@ -33,7 +33,7 @@ public class BuyCourseImpl implements BuyCourseService {
 
         if (studenCourseRepository.existUserIdAndIdCourse(id, id_course)
         ) {
-            StudentCourseEntity studentCourseEntity = studenCourseRepository.findStudentCourseByIdCourseIdUser(id, id_course);
+            StudentCourseEntity studentCourseEntity = studenCourseRepository.findByUserEntityIdAndIdCourse(id, id_course);
             return buyCourseMapper.toBuyCourseResponeDTO(studenCourseRepository.save(StudentCourseEntity.builder()
                     .id(studentCourseEntity.getId())
                     .idCourse(id_course)

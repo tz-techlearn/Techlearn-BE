@@ -15,6 +15,5 @@ public class BuyCourseResponseDTO {
     Long id;
     Long idCourse;
     UUID idUser;
-    Boolean isDeleted;
     StudentCourseStatus status;
 }
