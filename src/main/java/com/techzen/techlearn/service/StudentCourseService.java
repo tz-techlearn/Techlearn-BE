@@ -9,4 +9,6 @@ import java.util.UUID;
 @Service
 public interface StudentCourseService {
     List<StudentCourseResponseDTO> getByIdUser(UUID id);
+
+    StudentCourseResponseDTO getByIdCourse(Long idCourse, UUID idUser);
 }

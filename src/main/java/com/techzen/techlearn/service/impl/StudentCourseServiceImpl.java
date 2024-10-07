@@ -1,6 +1,8 @@
 package com.techzen.techlearn.service.impl;
 
 import com.techzen.techlearn.dto.response.StudentCourseResponseDTO;
+import com.techzen.techlearn.enums.ErrorCode;
+import com.techzen.techlearn.exception.AppException;
 import com.techzen.techlearn.mapper.StudentCourseMapper;
 import com.techzen.techlearn.repository.StudenCourseRepository;
 import com.techzen.techlearn.service.StudentCourseService;
@@ -26,5 +28,12 @@ public class StudentCourseServiceImpl implements StudentCourseService {
         return courseEntities.stream()
                 .map(studentCourseMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    public StudentCourseResponseDTO getByIdCourse(Long idCourse, UUID idUser) {
+        var course = studenCourseRepository.findByIdCourseAndUserEntityId(idCourse, idUser)
+                .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND));
+        return studentCourseMapper.toDTO(course);
     }
 }
