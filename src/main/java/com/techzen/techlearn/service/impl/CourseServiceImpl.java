@@ -47,11 +47,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponseDTO findCourseById(long id) {
-        return courseMapper.toCourseResponseDTO(courseRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND)));
-    }
-
-    @Override
     public List<UserResponseDTO> findUserByCourse(long id) {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND))
@@ -80,6 +75,11 @@ public class CourseServiceImpl implements CourseService {
 //    public Object getCourseById(Long id) {
 //        return courseClient.getCourseById(id);
 //    }
+
+    @Override
+    public Object getCourseById(Long id) {
+        return courseClient.getCourseById(id).getBody();
+    }
 
     @Override
     public CourseResponseDTO findById(long idCourse) {

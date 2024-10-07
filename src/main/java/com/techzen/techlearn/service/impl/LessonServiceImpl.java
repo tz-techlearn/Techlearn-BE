@@ -18,8 +18,8 @@ public class LessonServiceImpl implements LessonService {
     LessonClient lessonClient;
 
     @Override
-    public Object getAllLessons(int page, int pageSize, Long idChapter) {
-        return lessonClient.getAllLesson(page, pageSize, idChapter).getBody();
+    public Object getAllLessons(int page, int pageSize) {
+        return lessonClient.getAllLesson(page, pageSize).getBody();
     }
 
     @Override
