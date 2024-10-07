@@ -3,6 +3,7 @@ package com.techzen.techlearn.controller;
 import com.techzen.techlearn.dto.response.ResponseData;
 import com.techzen.techlearn.enums.ErrorCode;
 import com.techzen.techlearn.service.BuyCourseService;
+import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,7 +24,7 @@ public class BuyCourseController {
     BuyCourseService buyCourseService;
 
     @PostMapping
-    public ResponseData<?> buyCourse (@RequestParam UUID idUser, @RequestParam long idCourse){
+    public ResponseData<?> buyCourse (@RequestParam UUID idUser, @RequestParam long idCourse) throws MessagingException {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.GET_SUCCESSFUL.getCode())
