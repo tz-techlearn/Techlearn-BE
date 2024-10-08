@@ -62,4 +62,7 @@ public class TeacherCalendarResponseDTO2 implements Serializable {
 
     @JsonProperty("UserId")
     private String userId;
+
+    @JsonProperty("MeetingUrl")
+    private String meetingUrl;
 }

@@ -39,6 +39,9 @@ public class TeacherCalendar extends BaseEntity{
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "meetingUrl")
+    private String meetingUrl;
+
     @Column(name = "startTimezone")
     private String startTimezone;
 

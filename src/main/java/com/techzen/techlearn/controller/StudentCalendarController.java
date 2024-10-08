@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class StudentCalendarController {
 
     @PostMapping("/{id}/calendar")
     public ResponseData<?> addStudentCalendar(@RequestBody @Valid TeacherCalendarRequestDTO2 request,
-                                              @PathVariable UUID id) throws MessagingException, IOException {
+                                              @PathVariable UUID id) throws MessagingException, IOException, GeneralSecurityException {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.ADD_SUCCESSFUL.getCode())

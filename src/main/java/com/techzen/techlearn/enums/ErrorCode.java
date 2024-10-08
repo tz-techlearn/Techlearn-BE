@@ -63,6 +63,7 @@ public enum ErrorCode {
     DATE_APPOINTMENT_NOT_SUITABLE(1019, "This smaller set date is now", HttpStatus.BAD_REQUEST),
     TIME_START_SUITABLE(1020, "This smaller set time is now", HttpStatus.BAD_REQUEST),
     CALENDAR_NOT_EXISTED(1021, "Calendar not existed", HttpStatus.NOT_FOUND),
+    CALENDAR_CAN_NOT_DELETE(1022,"The meeting is about to start and cannot be canceled",HttpStatus.BAD_REQUEST),
 
     //error code chapter
     CHAPTER_NOT_EXISTED(1898, "Chapter not existed", HttpStatus.NOT_FOUND),

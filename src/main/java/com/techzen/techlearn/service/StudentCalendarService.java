@@ -6,11 +6,12 @@ import com.techzen.techlearn.entity.TeacherCalendar;
 import jakarta.mail.MessagingException;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.UUID;
 
 public interface StudentCalendarService {
-    TeacherCalendarResponseDTO2 addStudentCalendar(TeacherCalendarRequestDTO2 request) throws MessagingException, IOException;
+    TeacherCalendarResponseDTO2 addStudentCalendar(TeacherCalendarRequestDTO2 request) throws MessagingException, IOException, GeneralSecurityException;
 
     TeacherCalendarResponseDTO2 cancelCalendarStudentById(Integer id);
 

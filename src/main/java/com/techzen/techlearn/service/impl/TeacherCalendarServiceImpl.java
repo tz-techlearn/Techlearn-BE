@@ -23,9 +23,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+// import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -136,9 +137,13 @@ public class TeacherCalendarServiceImpl implements TeacherCalendar2Service {
         if (teacher != null) {
             calendar = teacherCalendarRepository.findByIdAndTeacher(id, teacher)
                     .orElseThrow(() -> new AppException(ErrorCode.CALENDAR_NOT_EXISTED));
+            if (Duration.between(LocalDateTime.now(),calendar.getStartTime()).toMinutes() > 5){
+                calendar.setStatus(CalendarStatus.CANCELLED);
+                teacherCalendarRepository.save(calendar);
+            } else {
+                throw new AppException(ErrorCode.CALENDAR_CAN_NOT_DELETE);
+            }
 
-            calendar.setStatus(CalendarStatus.CANCELLED);
-            teacherCalendarRepository.save(calendar);
         } else if (mentor != null) {
             calendar = teacherCalendarRepository.findByIdAndMentor(id, mentor)
                     .orElseThrow(() -> new AppException(ErrorCode.CALENDAR_NOT_EXISTED));
@@ -157,12 +162,10 @@ public class TeacherCalendarServiceImpl implements TeacherCalendar2Service {
                         new ArrayList<>(Collections.singletonList(user.getEmail())),
                         "Lịch hẹn đã bị hủy",
                         calendar.getTitle(),
-                        calendar.getDescription(),
-                        calendar.getStartTime(),
-                        calendar.getEndTime(),
-                        calendar.getDescription(),
+                        calendar.getDescription(), // link gg meet
                         "Chi tiết",
-                        "#e74c3c"  // Màu đỏ
+                        "#e74c3c",// Màu đỏ
+                        calendar
                 );
             } catch (MessagingException e) {
                 throw new AppException(ErrorCode.CANNOT_SEND_EMAIL);
@@ -208,5 +211,10 @@ public class TeacherCalendarServiceImpl implements TeacherCalendar2Service {
         return teacherCalendarRepository.findCourseChapterTeacherMentor(idCourse, idChapter, startDate, endDate)
                 .stream().map(teacherCalendarMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TeacherCalendar> getEventsBetween(LocalDateTime start, LocalDateTime end) {
+        return teacherCalendarRepository.findByStartTimeBetween(start, end);
     }
 }

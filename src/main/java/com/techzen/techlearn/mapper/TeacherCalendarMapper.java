@@ -16,6 +16,7 @@ public interface TeacherCalendarMapper {
 
     @Mapping(target = "ownerId", expression = "java(mapOwnerId(teacherCalendar.getTeacher(), teacherCalendar.getMentor()))")
     @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "meetingUrl", source = "meetingUrl")
     TeacherCalendarResponseDTO2 toDTO(TeacherCalendar teacherCalendar);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

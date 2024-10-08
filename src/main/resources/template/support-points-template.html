@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận mua điểm hỗ trợ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+        }
+        .purchase-details {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #eeeeee;
+        }
+        .purchase-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .purchase-row:last-child {
+            border-bottom: none;
+        }
+        .total {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666666;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .support {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Xác nhận mua điểm hỗ trợ</h1>
+    </div>
+
+    <div class="content">
+        <p>Xin chào %s,</p>
+
+        <p>%s</p>
+
+        <div class="purchase-details">
+            <div class="purchase-row">
+                <span>Người yêu cầu mua: </span>
+                <span>%s</span>
+            </div>
+            <div class="purchase-row">
+                <span>Số điểm: </span>
+                <span>%s điểm</span>
+            </div>
+            <div class="purchase-row total">
+                <span>Tổng tiền: </span>
+                <span>%s VNĐ</span>
+            </div>
+            <div class="purchase-row">
+                <span>Thời gian: </span>
+                <span>%s</span>
+            </div>
+        </div>
+
+        <p>Hãy liên hệ với người quản lý để thanh toán và cộng điểm hỗ trợ vào tài khoản của bạn.</p>
+
+        <div class="support">
+            <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi:</p>
+            <p>Email: support@example.com<br>
+                Hotline: 1900 xxxx</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Email này được gửi tự động, vui lòng không trả lời.</p>
+        <p>&copy; 2024 %s. Tất cả các quyền được bảo lưu.</p>
+    </div>
+</div>
+</body>
+</html>
