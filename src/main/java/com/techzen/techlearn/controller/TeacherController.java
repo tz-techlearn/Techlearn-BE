@@ -1,5 +1,7 @@
 package com.techzen.techlearn.controller;
 
+import com.techzen.techlearn.client.CourseClient;
+import com.techzen.techlearn.client.TeacherClient;
 import com.techzen.techlearn.dto.request.TeacherRequestDTO;
 import com.techzen.techlearn.dto.response.ResponseData;
 import com.techzen.techlearn.dto.response.TeacherResponseDTO;
@@ -10,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,6 +72,15 @@ public class TeacherController {
                 .status(HttpStatus.OK.value())
                 .code(ErrorCode.ADD_SUCCESSFUL.getCode())
                 .message("Teacher added to course successfully.")
+                .build();
+    }
+
+    @GetMapping("/courses/{idCourse}")
+    ResponseData<?> getTeacherByIdCourse(@PathVariable Long idCourse){
+        return ResponseData.builder()
+                .status(HttpStatus.OK.value())
+                .code(ErrorCode.GET_SUCCESSFUL.getCode())
+                .result(teacherService.getTeacherByCourseId(idCourse))
                 .build();
     }
 }

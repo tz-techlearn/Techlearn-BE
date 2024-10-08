@@ -17,4 +17,8 @@ public interface MailService {
     void sendEmails(List<String> recipientEmails, String subject, String title, String actionUrl, String actionText, String primaryColor, TeacherCalendar calendar) throws MessagingException;
 
     void sendMailSupportPoints(PointResponseDTO point, UserResponseDTO user) throws MessagingException;
+
+    void trialCourseMail(String userName, String courseName , String toEmail, String subject, String title, String description) throws MessagingException;
+
+    void buyCourseMail(String studentName, List<String> teacherName, String courseName, List<String> teacherEmailAddress, String userEmailAddress) throws MessagingException;
 }

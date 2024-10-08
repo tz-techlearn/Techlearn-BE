@@ -17,4 +17,6 @@ public interface TeacherService {
     List<TeacherResponseDTO> filterTeacherByCourse(Long id);
 
     void addTeacherToCourse(UUID teacherId, Long courseId);
+
+    List<TeacherResponseDTO> getTeacherByCourseId(Long courseId);
 }

@@ -24,4 +24,6 @@ public class TeacherResponseDTO {
 
     @JsonProperty("OwnerColor")
     private String color;
+
+    private String email;
 }
