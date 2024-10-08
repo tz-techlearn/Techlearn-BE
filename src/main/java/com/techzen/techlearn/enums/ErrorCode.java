@@ -77,7 +77,9 @@ public enum ErrorCode {
     CONTENT_STRUCT_RESPONSE_NOT_NULL(1703, "Type StructResponseAI not found", HttpStatus.NOT_FOUND),
 
     // error code Student course : 180*
-    Student_course_exist(1801,"Exist Student course " ,HttpStatus.BAD_REQUEST);
+    Student_course_exist(1801,"Exist Student course " ,HttpStatus.BAD_REQUEST),
+    // error code submit lesson : 190*
+    exceed_the_number_of_files(1901,"Exceed the number of files" ,HttpStatus.BAD_REQUEST);
 
     Integer code;
     String message;
