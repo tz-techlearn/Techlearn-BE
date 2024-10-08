@@ -16,10 +16,11 @@ public interface CourseService {
 
     PageResponse<?> getCoursesByUserId(UUID userId, int page, int pageSize);
 
-    CourseResponseDTO findCourseById(long id);
-
     List<UserResponseDTO> findUserByCourse(long id);
 
     List<TeacherResponseDTO> findTeacherByCourse(long id);
 
+    Object getAllCourse(int page, int pageSize);
+
+    Object getCourseById(Long id);
 }

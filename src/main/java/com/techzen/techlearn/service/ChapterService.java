@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ChapterService {
-    PageResponse<?> getAllChaptersByCourseId(Long courseId);
+    Object getAllChaptersByCourseId(Long courseId);
 }

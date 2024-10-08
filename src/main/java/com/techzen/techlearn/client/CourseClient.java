@@ -21,4 +21,7 @@ public interface CourseClient {
     @GetMapping("/{id}/chapters")
     ResponseEntity<?> getChapterByIdCourse(@PathVariable Long id);
 
+    @GetMapping("/{id}")
+    ResponseEntity<?> getCourseById(@PathVariable Long id);
+
 }

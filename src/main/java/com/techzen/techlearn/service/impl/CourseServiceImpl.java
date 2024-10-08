@@ -37,18 +37,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public PageResponse<?> getCoursesByUserId(UUID userId, int page, int pageSize) {
         var courseIds = studenCourseRepository.findAllCourseIdsByUserId(userId);
-        var courseResponse = courseClient.getCourseByListId(courseIds);
+        var course = courseClient.getCourseByListId(courseIds);
         return PageResponse.builder()
                 .page(page)
                 .pageSize(pageSize)
                 .totalPage(0)
-                .items(courseResponse.getBody())
+                .items(course.getBody())
                 .build();
-    }
-
-    @Override
-    public CourseResponseDTO findCourseById(long id) {
-        return courseMapper.toCourseResponseDTO(courseRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND)));
     }
 
     @Override
@@ -69,6 +64,16 @@ public class CourseServiceImpl implements CourseService {
                 .stream()
                 .map(teacherMapper::toTeacherResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Object getAllCourse(int page, int pageSize) {
+        return courseClient.getAllCourses(page, pageSize).getBody();
+    }
+
+    @Override
+    public Object getCourseById(Long id) {
+        return courseClient.getCourseById(id).getBody();
     }
 
     @Override
