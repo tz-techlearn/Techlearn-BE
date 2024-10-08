@@ -43,6 +43,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "points")
     private Integer points;
 
+    @Column(name = "public_point")
+    private Integer publicPoint;
+
     @Column(name = "avatar")
     private String avatar;
 

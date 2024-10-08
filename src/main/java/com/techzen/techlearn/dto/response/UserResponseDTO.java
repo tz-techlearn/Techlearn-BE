@@ -1,6 +1,8 @@
 package com.techzen.techlearn.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.techzen.techlearn.entity.ChapterEntity;
+import com.techzen.techlearn.entity.CourseEntity;
 import com.techzen.techlearn.entity.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,5 +31,7 @@ public class UserResponseDTO implements Serializable {
     @JsonProperty("isTeacher")
     boolean isTeacher;
     Set<Role> roles;
+    List<ChapterEntity> chapters;
+    List<CourseEntity> courses;
 
 }

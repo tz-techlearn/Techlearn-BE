@@ -22,4 +22,6 @@ public interface TeacherCalendar2Service {
     List<TeacherCalendarResponseDTO2> findCalendarByTeacherId(UUID uuid, String technicalTeacherName, String chapterName);
 
     List<TeacherCalendarResponseDTO2> findCourseChapterTeacherMentor(Long idCourse, Long idChapter, LocalDateTime startDate, LocalDateTime endDate);
+
+    List<TeacherCalendar> getEventsBetween(LocalDateTime start, LocalDateTime end);
 }

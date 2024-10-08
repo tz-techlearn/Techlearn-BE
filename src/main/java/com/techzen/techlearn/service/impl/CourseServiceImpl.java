@@ -68,7 +68,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Object getAllCourse(int page, int pageSize) {
-        return courseClient.getAllCourses(page, pageSize).getBody();
+        return courseClient.getAllCourseForUser(page, pageSize).getBody();
     }
 //
 //    @Override

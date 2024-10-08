@@ -6,7 +6,7 @@ CREATE TABLE tbl_student_course
     modified_date datetime NULL,
     modified_by   VARCHAR(255) NULL,
     id_course     BIGINT NULL,
-    id_user       BINARY(16)            NULL,
+    id_user       BINARY(16) NOT NULL,
     is_deleted    BIT(1) NULL,
     CONSTRAINT pk_tbl_student_course PRIMARY KEY (id)
 );

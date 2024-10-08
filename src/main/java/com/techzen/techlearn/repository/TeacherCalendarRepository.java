@@ -62,4 +62,6 @@ public interface TeacherCalendarRepository extends JpaRepository<TeacherCalendar
                                                   @Param("idChapter") Long idChapter,
                                                   @Param("startDate") LocalDateTime startDate,
                                                   @Param("endDate") LocalDateTime endDate);
+
+    List<TeacherCalendar> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
 }

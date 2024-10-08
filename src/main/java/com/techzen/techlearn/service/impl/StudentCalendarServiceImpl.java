@@ -3,15 +3,13 @@ package com.techzen.techlearn.service.impl;
 import com.techzen.techlearn.dto.CalendarDTO;
 import com.techzen.techlearn.dto.request.TeacherCalendarRequestDTO2;
 import com.techzen.techlearn.dto.response.TeacherCalendarResponseDTO2;
-import com.techzen.techlearn.entity.Mentor;
-import com.techzen.techlearn.entity.Teacher;
-import com.techzen.techlearn.entity.TeacherCalendar;
-import com.techzen.techlearn.entity.UserEntity;
+import com.techzen.techlearn.entity.*;
 import com.techzen.techlearn.enums.CalendarStatus;
 import com.techzen.techlearn.enums.ErrorCode;
 import com.techzen.techlearn.exception.AppException;
 import com.techzen.techlearn.mapper.TeacherCalendarMapper;
 import com.techzen.techlearn.repository.*;
+import com.techzen.techlearn.service.GoogleMeetService;
 import com.techzen.techlearn.service.MailService;
 import com.techzen.techlearn.service.StudentCalendarService;
 import jakarta.mail.MessagingException;
@@ -23,6 +21,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
     MailService gmailService;
     TeacherRepository teacherRepository;
     MentorRepository mentorRepository;
+    GoogleMeetService googleMeetService;
 
     private boolean isTeacher(UUID id) {
         return teacherRepository.existsById(id);
@@ -54,7 +55,7 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
 
     @Transactional
     @Override
-    public TeacherCalendarResponseDTO2 addStudentCalendar(TeacherCalendarRequestDTO2 request) throws MessagingException, IOException {
+    public TeacherCalendarResponseDTO2 addStudentCalendar(TeacherCalendarRequestDTO2 request) throws MessagingException, IOException, GeneralSecurityException {
 
         LocalDate dateStart = LocalDate.parse(request.getStartTime().substring(0, 10));
         LocalDate dateEnd = LocalDate.parse(request.getEndTime().substring(0, 10));
@@ -70,7 +71,6 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
         }
 
         TeacherCalendar calendar = teacherCalendarMapper.toEntity(request);
-
         UUID ownerId = UUID.fromString(request.getOwnerId());
         Teacher teacher;
         Mentor mentor;
@@ -81,7 +81,6 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
                     () -> new AppException(ErrorCode.TEACHER_NOT_EXISTED)
             );
             calendar.setTeacher(teacher);
-
             recipientEmails.add(
                     userRepository.findById(teacher.getId()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)).getEmail()
             );
@@ -112,20 +111,25 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
         user.setPoints(user.getPoints() - 1);
         calendar.setUser(user);
 
+        calendar.setMeetingUrl(createGoogleMeetUrl(calendar, recipientEmails));
+
         // send email
         gmailService.sendEmails(
                 recipientEmails,
                 "Lịch đặt mới",
                 calendar.getTitle(),
-                calendar.getDescription(),
-                calendar.getStartTime(),
-                calendar.getEndTime(),
-                calendar.getDescription(),
+                calendar.getMeetingUrl(),
                 "Tham gia cuộc họp",
-                "#3498db"  // Màu xanh
+                "#3498db",  // Màu xanh
+                calendar
         );
 
         return teacherCalendarMapper.toDTO(teacherCalendarRepository.save(calendar));
+    }
+
+    private String createGoogleMeetUrl(TeacherCalendar teacherCalendar, List<String> recipientEmails) throws GeneralSecurityException, IOException {
+
+        return googleMeetService.createGoogleMeetEvent(teacherCalendar, recipientEmails);
     }
 
     @Override
@@ -138,11 +142,13 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
         Mentor mentor = calendar.getMentor();
 
         UserEntity user = null;
-        if (calendar.getStatus().equals(CalendarStatus.BOOKED)){
+        if (calendar.getStatus().equals(CalendarStatus.BOOKED) & Duration.between(LocalDateTime.now(),calendar.getStartTime()).toMinutes() > 5){
             calendar.setStatus(CalendarStatus.CANCELLED);
             user = calendar.getUser();
             user.setPoints(user.getPoints() + 1);
             userRepository.save(user);
+        } else {
+            throw new AppException(ErrorCode.CALENDAR_CAN_NOT_DELETE);
         }
 
         List<String> recipientEmails = new ArrayList<>();
@@ -160,11 +166,9 @@ public class StudentCalendarServiceImpl implements StudentCalendarService {
                     "Lịch đã bị hủy bởi " + user.getEmail(),
                     calendar.getTitle(),
                     calendar.getDescription(),
-                    calendar.getStartTime(),
-                    calendar.getEndTime(),
-                    calendar.getDescription(),
                     "Chi tiết",
-                    "#e74c3c"  // Màu đỏ
+                    "#e74c3c",  // Màu đỏ
+                    calendar
             );
         } catch (MessagingException e) {
             throw new AppException(ErrorCode.CANNOT_SEND_EMAIL);

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MentorRepository extends JpaRepository<Mentor, UUID> {
@@ -25,4 +26,5 @@ public interface MentorRepository extends JpaRepository<Mentor, UUID> {
     @Query(value = "UPDATE mentor_chapter SET chapter_id = :newChapterId WHERE chapter_id = :oldChapterId", nativeQuery = true)
     void updateMentorChapter(@Param("oldChapterId") Long oldChapterId, @Param("newChapterId") Long newChapterId);
 
+    Optional<Mentor> findByEmail(String email);
 }
