@@ -21,21 +21,22 @@ public class CourseController {
 
     CourseService courseService;
 
-    @GetMapping
+    @GetMapping("/user")
     public ResponseEntity<?> getCourseByUser(@RequestParam(required = false, defaultValue = "1") int page,
-                                             @RequestParam(required = false, defaultValue = "10") int pageSize,
+                                             @RequestParam(required = false, defaultValue = "30") int pageSize,
                                              @RequestParam UUID id) {
         return JsonResponse.ok(courseService.getCoursesByUserId(id, page, pageSize));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllCourse(@RequestParam(required = false, defaultValue = "1") int page,
+                                          @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        return JsonResponse.ok(courseService.getAllCourse(page, pageSize));
+    }
+
     @GetMapping("/{id}")
-    public ResponseData<?> findCourseById(@PathVariable long id) {
-        return ResponseData.builder()
-                .status(HttpStatus.OK.value())
-                .code(ErrorCode.GET_SUCCESSFUL.getCode())
-                .message(ErrorCode.GET_SUCCESSFUL.getMessage())
-                .result(courseService.findCourseById(id))
-                .build();
+    public ResponseEntity<?> getCourseById(@PathVariable Long id) {
+        return JsonResponse.ok(courseService.getCourseById(id));
     }
 
     @GetMapping("/{id}/users")

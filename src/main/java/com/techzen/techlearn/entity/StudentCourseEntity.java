@@ -1,6 +1,7 @@
 package com.techzen.techlearn.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.techzen.techlearn.enums.StudentCourseStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,5 +31,11 @@ public class StudentCourseEntity extends BaseEntity {
 
     @Column(name = "is_deleted")
     Boolean isDeleted;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+
+    StudentCourseStatus  status;
+
 
 }

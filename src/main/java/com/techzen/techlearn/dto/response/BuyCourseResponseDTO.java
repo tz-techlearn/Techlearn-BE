@@ -1,17 +1,19 @@
 package com.techzen.techlearn.dto.response;
 
+import com.techzen.techlearn.enums.StudentCourseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+import java.util.UUID;
+
 @Builder
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StudentCourseResponseDTO {
-    String points;
+public class BuyCourseResponseDTO {
+    Long id;
     Long idCourse;
-    String status;
+    UUID idUser;
+    StudentCourseStatus status;
 }
