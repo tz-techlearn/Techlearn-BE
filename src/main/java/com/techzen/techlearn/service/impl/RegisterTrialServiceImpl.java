@@ -1,5 +1,6 @@
 package com.techzen.techlearn.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techzen.techlearn.dto.response.RegisterTrialDTO;
 import com.techzen.techlearn.entity.CourseEntity;
 import com.techzen.techlearn.entity.StudentCourseEntity;
@@ -11,6 +12,7 @@ import com.techzen.techlearn.mapper.RegisterTrialMapper;
 import com.techzen.techlearn.repository.CourseRepository;
 import com.techzen.techlearn.repository.StudenCourseRepository;
 import com.techzen.techlearn.repository.UserRepository;
+import com.techzen.techlearn.service.CourseService;
 import com.techzen.techlearn.service.RegisterTrialService;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -26,7 +29,7 @@ import java.util.UUID;
 public class RegisterTrialServiceImpl implements RegisterTrialService {
 
     StudenCourseRepository studenCourseRepository;
-    CourseRepository courseRepository;
+    CourseService courseService;
     RegisterTrialMapper registerTrialMapper;
     UserRepository userRepository;
     GmailServiceImpl gmailService;
@@ -38,8 +41,13 @@ public class RegisterTrialServiceImpl implements RegisterTrialService {
         ) {
             throw new AppException(ErrorCode.Student_course_exist);
         }
-        CourseEntity courseEntity = courseRepository.findById(idCourse).orElseThrow(()-> new AppException(ErrorCode.COURSE_NOT_FOUND));
-        gmailService.trialCourseMail(userEntity.getFullName(),courseEntity.getName() , userEntity.getEmail(), "Hoàn thành đăng kí dùng thử khóa học", "Hoàn thành đăng kí thử khóa học", "Description hoàn thành đăng kí thử khóa học");
+        Object course = courseService.getCourseById(idCourse);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> courseMap = mapper.convertValue(course, Map.class);
+
+        String courseName = (String) ((Map<String, Object>) courseMap.get("data")).get("name");
+        gmailService.trialCourseMail(userEntity.getFullName(),courseName , userEntity.getEmail(), "Hoàn thành đăng kí dùng thử khóa học", "Hoàn thành đăng kí thử khóa học", "Description hoàn thành đăng kí thử khóa học");
         return registerTrialMapper.toRegisterTrialDTO(studenCourseRepository.
                 save(StudentCourseEntity.builder()
                         .idCourse(idCourse)
