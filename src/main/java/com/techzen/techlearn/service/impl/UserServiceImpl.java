@@ -174,6 +174,19 @@ public UserResponseDTO retrieveUser() {
         user.setPoints(userResponseDTO.getPoints());
         user.setAvatar(userResponseDTO.getAvatar());
 
+        if (user.isTeacher()) {
+            Teacher teacher = teacherRepository.findByEmail(email)
+                    .orElseThrow(() -> new AppException(ErrorCode.TEACHER_NOT_EXISTED));
+            teacher.setEmail(userResponseDTO.getEmail());
+            teacherRepository.save(teacher);
+        }
+
+        if (user.isMentor()) {
+            Mentor mentor = mentorRepository.findByEmail(email)
+                    .orElseThrow(() -> new AppException(ErrorCode.MENTOR_NOT_EXISTED));
+            mentor.setEmail(userResponseDTO.getEmail());
+            mentorRepository.save(mentor);
+        }
         userRepository.save(user);
         return userMapper.toUserResponseDTO(user);
     }
