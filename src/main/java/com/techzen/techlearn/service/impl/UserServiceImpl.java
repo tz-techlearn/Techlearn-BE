@@ -223,10 +223,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public PointResponseDTO requestPointsPurchase(PointResponseDTO dto) throws MessagingException {
         UserResponseDTO user = retrieveUser();
-        UserEntity existingUser = userRepository.findById(user.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        existingUser.setPoints(existingUser.getPoints() + Integer.parseInt(dto.getPoints()));
-        userRepository.save(existingUser);
+//        UserEntity existingUser = userRepository.findById(user.getId())
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+//        existingUser.setPoints(existingUser.getPoints() + Integer.parseInt(dto.getPoints()));
+//        userRepository.save(existingUser);
         gmaMailService.sendMailSupportPoints(dto, user);
         return dto;
     }
