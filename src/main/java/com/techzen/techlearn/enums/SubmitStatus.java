@@ -13,6 +13,7 @@ public enum SubmitStatus {
     PENDING("Pending"),
     PASS("Pass"),
     FIX_REVIEW("Fix Review"),
+    FAIL("Fix Review"),
     ;
    String name;
 }

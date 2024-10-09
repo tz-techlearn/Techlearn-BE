@@ -38,11 +38,20 @@ public class SubmitionServiceImpl implements SubmitionService {
         UserEntity userEntity = userRepository.findUserById(
                         UUID.fromString(id))
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
+        SubmitStatus status;
+        if (resultReview.contains("Pass")) {
+            status = SubmitStatus.PASS;
+        } else if (resultReview.contains("Fail")) {
+            status = SubmitStatus.FIX_REVIEW;
+        } else {
+            status = SubmitStatus.PENDING;
+        }
         var submit = SubmitionEntity.builder()
                 .linkGithub(linkGithub)
                 .review(resultReview)
                 .user(userEntity)
                 .isDeleted(false)
+                .status(status)
                 .assignmentId(Long.parseLong(idAss))
                 .build();
         submitionRepository.save(submit);
@@ -52,9 +61,10 @@ public class SubmitionServiceImpl implements SubmitionService {
     public PageResponse<?> getAllReviews(int page, int pageSize, UUID userId, long assignmentId) {
         Pageable pageable = PageRequest.of(page > 0 ? page - 1 : 0, pageSize);
         Page<SubmitionEntity> reviews = submitionRepository
-                .findAllByAssignmentIdAndUserId(pageable, assignmentId, userId);
-        List<ReviewResponseDTO> list = reviews.map(reviewMapper::toReviewResponseDTO)
-                .stream().collect(Collectors.toList());
+                .findAllByAssignmentIdAndUserId(pageable,assignmentId, userId);
+        System.out.println(reviews.getContent().toString());
+        List<ReviewResponseDTO> list = reviews.getContent().stream().map(reviewMapper::toReviewResponseDTO)
+                .collect(Collectors.toList());
         return PageResponse.builder()
                 .page(page)
                 .pageSize(pageSize)

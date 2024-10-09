@@ -86,6 +86,11 @@ public class GithubServiceImpl implements GithubService {
     }
 
     private List<GithubResponseDTO> getContentRecursive(String linkGithub, List<GithubResponseDTO> githubDTOList) {
+
+        if(githubDTOList.size()>20){
+            throw new AppException(ErrorCode.exceed_the_number_of_files);
+        }
+
         // neu giong thi kh can goi getlink
         String apiUrl = linkGithub.contains("api.github.com") ? linkGithub : getAPILink(linkGithub);
 
