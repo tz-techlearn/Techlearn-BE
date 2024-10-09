@@ -21,5 +21,4 @@ public interface UserMapper {
 
     @Mapping(source = "points", target = "points")
     StudentCourseResponseDTO toStudentCourseResponseDTO(UserEntity userEntity);
-
 }
