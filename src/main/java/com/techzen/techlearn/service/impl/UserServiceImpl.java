@@ -20,6 +20,7 @@ import com.techzen.techlearn.repository.UserRepository;
 import com.techzen.techlearn.service.MailService;
 import com.techzen.techlearn.service.UserService;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -129,37 +130,37 @@ public class UserServiceImpl implements UserService {
 //    }
 
 
-@Override
-public UserResponseDTO retrieveUser() {
-    var context = SecurityContextHolder.getContext();
-    String email = context.getAuthentication().getName();
+    @Override
+    public UserResponseDTO retrieveUser() {
+        var context = SecurityContextHolder.getContext();
+        String email = context.getAuthentication().getName();
 
-    UserEntity user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-    UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
 
-    if (user.isMentor()) {
-        Mentor mentor = mentorRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.MENTOR_NOT_EXISTED));
-        List<ChapterEntity> chapters = mentor.getChapters();
-        userResponseDTO.setChapters(chapters);
+        if (user.isMentor()) {
+            Mentor mentor = mentorRepository.findByEmail(user.getEmail())
+                    .orElseThrow(() -> new AppException(ErrorCode.MENTOR_NOT_EXISTED));
+            List<ChapterEntity> chapters = mentor.getChapters();
+            userResponseDTO.setChapters(chapters);
+        }
+
+        if (user.isTeacher()) {
+            Teacher teacher = teacherRepository.findByEmail(user.getEmail())
+                    .orElseThrow(() -> new AppException(ErrorCode.TEACHER_NOT_EXISTED));
+            List<CourseEntity> courses = teacher.getCourses();
+            userResponseDTO.setCourses(courses);
+        }
+
+        if (!user.isMentor() && !user.isTeacher()) {
+            List<CourseEntity> userCourses = user.getCourseEntities();
+            userResponseDTO.setCourses(userCourses);
+        }
+
+        return userResponseDTO;
     }
-
-    if (user.isTeacher()) {
-        Teacher teacher = teacherRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.TEACHER_NOT_EXISTED));
-        List<CourseEntity> courses = teacher.getCourses();
-        userResponseDTO.setCourses(courses);
-    }
-
-    if (!user.isMentor() && !user.isTeacher()) {
-        List<CourseEntity> userCourses = user.getCourseEntities();
-        userResponseDTO.setCourses(userCourses);
-    }
-
-    return userResponseDTO;
-}
 
     public UserResponseDTO updateUserMe(UserResponseDTO userResponseDTO) {
         var context = SecurityContextHolder.getContext();
@@ -192,15 +193,15 @@ public UserResponseDTO retrieveUser() {
     }
 
     @Override
-        public StudentCourseResponseDTO getAllPointsById(UUID idUser) {
-            Integer totalPoints = userRepository.getAllPointsById(idUser);
-            UserEntity entity = new UserEntity();
-            entity.setPoints(totalPoints);
-            StudentCourseResponseDTO dto = userMapper.toStudentCourseResponseDTO(entity);
+    public StudentCourseResponseDTO getAllPointsById(UUID idUser) {
+        Integer totalPoints = userRepository.getAllPointsById(idUser);
+        UserEntity entity = new UserEntity();
+        entity.setPoints(totalPoints);
+        StudentCourseResponseDTO dto = userMapper.toStudentCourseResponseDTO(entity);
 
-            return StudentCourseResponseDTO.builder()
-                    .points(dto.getPoints())
-                    .build();
+        return StudentCourseResponseDTO.builder()
+                .points(dto.getPoints())
+                .build();
     }
 
     @Override
@@ -222,11 +223,14 @@ public UserResponseDTO retrieveUser() {
     @Override
     public PointResponseDTO requestPointsPurchase(PointResponseDTO dto) throws MessagingException {
         UserResponseDTO user = retrieveUser();
-
+        UserEntity existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        existingUser.setPoints(existingUser.getPoints() + Integer.parseInt(dto.getPoints()));
+        userRepository.save(existingUser);
         gmaMailService.sendMailSupportPoints(dto, user);
-
         return dto;
     }
+
 
     @Override
     public PageResponse<?> findAllPointsPackage(int page, int pageSize) {

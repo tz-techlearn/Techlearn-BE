@@ -35,7 +35,7 @@ public class TeacherCalendarController {
     }
 
     @PostMapping("/{id}/calendar")
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasAuthority('TEACHER') or hasAuthority('MENTOR')")
     public ResponseData<?> addTeacherCalendar(@RequestBody @Valid TeacherCalendarRequestDTO2 request, @PathVariable(name = "id") UUID id) {
         return ResponseData.builder()
                 .status(HttpStatus.OK.value())
