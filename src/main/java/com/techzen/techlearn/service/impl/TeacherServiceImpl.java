@@ -1,5 +1,6 @@
 package com.techzen.techlearn.service.impl;
 
+import com.techzen.techlearn.client.TeacherClient;
 import com.techzen.techlearn.dto.request.TeacherRequestDTO;
 import com.techzen.techlearn.dto.response.PageResponse;
 import com.techzen.techlearn.dto.response.TeacherResponseDTO;
@@ -19,7 +20,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
     TeacherRepository teacherRepository;
     TeacherMapper teacherMapper;
     CourseRepository courseRepository;
+    TeacherClient teacherClient;
 
     @Override
     public PageResponse<?> findAll(int page, int pageSize) {
@@ -84,5 +88,32 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.getCourses().add(course);
 
         teacherRepository.save(teacher);
+    }
+
+    public List<TeacherResponseDTO> getTeacherByCourseId(Long courseId) {
+        // Lấy phản hồi từ teacherClient
+        Map<String, Object> response = (Map<String, Object>) teacherClient.getTeacherByIdCourse(courseId).getBody();
+
+        // In ra phản hồi để kiểm tra
+        System.out.println("Response from teacherClient: " + response);
+
+        // Kiểm tra nếu response không null và có chứa "data"
+        if (response != null && response.containsKey("data")) {
+            List<Map<String, Object>> teachers = (List<Map<String, Object>>) response.get("data");
+
+            // Chuyển đổi danh sách giáo viên từ Map sang TeacherResponseDTO
+            return teachers.stream()
+                    .map(teacher -> TeacherResponseDTO.builder()
+                            .id(UUID.fromString((String) teacher.get("id")))
+                            .name((String) teacher.get("name"))
+                            .avatar((String) teacher.get("avatar"))
+                            .color((String) teacher.get("color"))
+                            .email((String) teacher.get("email"))
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        // Trả về danh sách rỗng nếu không có dữ liệu
+        return new ArrayList<>();
     }
 }
